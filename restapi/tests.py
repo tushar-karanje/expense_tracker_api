@@ -1,12 +1,15 @@
-# from django.test import TestCase
-from unittest import TestCase
+from django.test import TestCase
+from restapi import models
 
 
-# Create your tests here.
-def two_integers_sum(a, b):
-    return a + b
+class TestModels(TestCase):
+    def test_expense(self):
+        expense = models.Expense.objects.create(
+            amount=12.99, merchant="DMart", description="Chocolate", category="Grocery"
+        )
+        inserted_expense = models.Expense.objects.get(pk=expense.id)
 
-
-class TestSum(TestCase):
-    def test_sum(self):
-        self.assertEqual(two_integers_sum(1, 3), 4)
+        self.assertEqual(inserted_expense.amount, 12.99)
+        self.assertEqual(inserted_expense.merchant, "DMart")
+        self.assertEqual(inserted_expense.description, "Chocolate")
+        self.assertEqual(inserted_expense.category, "Grocery")
